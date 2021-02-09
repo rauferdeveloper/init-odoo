@@ -1,0 +1,68 @@
+<?xml version="1.0"?> 
+<odoo> 
+    <data> 
+   
+        <!-- Herencia de la vista del formulario padre  -->
+
+         <record id="view_form_todo_task_inherited" model="ir.ui.view">
+            <field name="name">Todo Task form - User extension</field>
+            <field name="model">todo.task</field>
+            <field name="inherit_id" ref="todo_app1.view_form_todo_task"/>
+            <field name="arch" type="xml">
+                <field name='name' position="after">
+                    <field name="user_id"/>
+                </field>
+                <field name='is_done' position="before">
+                    <field name="date_deadline"/>
+                </field>
+                <field name='active' position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <sheet position="after"> 
+                    <div class="oe_chatter"> 
+                        <field name="message_follower_ids" widget="mail_followers" /> 
+                        <field name="message_ids" widget="mail_thread" /> 
+                    </div> 
+                </sheet>
+            </field>
+        </record>
+
+        <!-- Herencia de la vista de arbol padre --> 
+        <record id="view_tree_todo_task_inherited" model="ir.ui.view"> 
+            <field name="name">Todo Task tree - User  extension</field> 
+            <field name="model">todo.task</field> 
+            <field name="inherit_id" ref="todo_app1.view_tree_todo_task"/>
+            <field name="arch" type="xml"> 
+                <field name="name" position="after"> 
+                    <field name="user_id" />
+                    <field name="date_deadline"/>
+                </field>
+            </field> 
+        </record>
+        
+        <!-- Herencia de la vista de busqueda padre --> 
+        <record id="view_filter_todo_task_inherited" model="ir.ui.view"> 
+            <field name="name">Todo Task tree - User extension</field> 
+            <field name="model">todo.task</field> 
+            <field name="inherit_id" ref="todo_app1.view_filter_todo_task"/>
+            <field name="arch" type="xml"> 
+            <field name="name" position="after"> 
+                <field name="user_id" /> 
+                <filter name="filter_my_tasks" string="Mis tareas" domain="[('user_id','in',[uid,False])]" /> 
+                <filter name="filter_not_assigned" string="No Asignado" domain="[('user_id','=',False)]" /> 
+                </field>
+            </field> 
+        </record>
+
+        <!-- Modificamos el menu --> 
+        <record id="todo_app1.menu_todo_task" model="ir.ui.menu"> 
+            <field name="name"> Mis tareas pendientes</field> 
+        </record>
+        <record model="ir.actions.act_window" id="todo_app1.action_todo_task"> 
+            <field name="context"> 
+                {'search_default_filter_my_tasks': True} 
+            </field> 
+        </record>
+        
+    </data>
+</odoo>

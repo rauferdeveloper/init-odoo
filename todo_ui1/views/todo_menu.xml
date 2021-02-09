@@ -1,0 +1,48 @@
+<?xml version="1.0"?> 
+<odoo> 
+    <data>
+         <!-- Acciones que tendran los items del menu --> 
+        <act_window id="action_todo_stage" 
+            name="Etapas de las tareas por hacer" 
+            res_model="todo.task.stage" 
+            view_mode="tree,form" 
+            target="current" 
+            context="{'default_state': 'open'}" 
+            domain="[]" 
+            limit="80" 
+        /> 
+        <act_window id="todo_app1.action_todo_task" 
+            name="Tareas por hacer" 
+            res_model="todo.task" 
+            view_mode="tree,form,calendar,graph,pivot" 
+            target="current" 
+            context="{'search_default_filter_my_tasks': True}" 
+            /> 
+        <!-- Añadir una opcion mas al boton "More" --> 
+        <act_window id="action_todo_task_stage" 
+            name="Etapas de las tareas por hacer" 
+            res_model="todo.task.stage" 
+            src_model="todo.task"  
+            multi="False" 
+        />
+        <!-- Items del menu -->
+        <!-- Modificar el top del item del menu -->
+        <menuitem id="todo_app1.menu_todo_task" name="Tareas pendientes" />
+        <!-- App menu items -->
+        <menuitem id="menu_todo_task_view"
+            name="Tareas"
+            parent="todo_app1.menu_todo_task"
+            sequence="10"
+            action="todo_app1.action_todo_task" />
+        <menuitem id="menu_todo_config"
+            name="Configuracion"
+            parent="todo_app1.menu_todo_task"
+            sequence="100"
+            groups="base.group_system" /> 
+        <menuitem id="menu_todo_task_stage"
+            name="Etapas"
+            parent="menu_todo_config"
+            sequence="10"
+            action="action_todo_stage" />
+    </data>
+</odoo> 

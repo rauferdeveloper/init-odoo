@@ -1,0 +1,141 @@
+<odoo> 
+  <template id="hello" name="template hello"> 
+    <t t-call="website.layout">
+      <h1>Hola Mundo!!!!!</h1> 
+    </t>
+  </template> 
+  <template id="assets_frontend"
+    inherit_id="website.assets_frontend"
+    name="todo_website_assets">
+      <xpath expr="." position="inside">
+        <link rel='stylesheet' type="text/css"
+              href='/todo_website1/static/src/css/index.css'/>
+        <script type='text/javascript'>
+            function changeDate(){
+              var dateInput = document.getElementById("deadline") //Buscamos el elemento en concreto
+              var dateString = dateInput.value // Le asignamos el valor
+              dateInput.type="text" // Cambiamos el tipo de input para guardarlo como texto
+              var date = new Date(dateString) // Lo convierto en fecha
+              var esp = date.toLocaleDateString(window.navigator.language); // Le asigno el formato adecuado dependiendo del idioma
+              dateInput.value = esp // Le asigno el valor nuevo
+            }
+          </script>	
+      </xpath>
+  </template>
+  <template id="index" name="Tareas pendientes"> 
+    <t t-call="website.layout"> 
+      <div id="wrap" class="container"> 
+        <h1>Tareas pendientes</h1> 
+
+        <!-- Lista de Treas a mostrar --> 
+        <t t-foreach="tasks" t-as="task"> 
+          <div class="row"> 
+            <input type="checkbox" disabled="True" 
+              t-att-checked=" 'checked' if task.is_done else {}" /> 
+            <a t-attf-href="/tareas/{{slug(task)}}"> 
+              <span t-field="task.name" 
+                t-att-class="'todo-app-done' if task.is_done  
+                  else ''" /> 
+            </a> 
+          </div> 
+        </t> 
+
+        <!-- Añadir una nueva tarea --> 
+        <div class="row"> 
+          <a href="/tareas/add" class="btn btn-primary btn-lg"> 
+              Añadir
+              
+          </a> 
+        </div> 
+        
+
+      </div> 
+    </t> 
+  </template>
+  <template id="detail" name="Informacion de la tarea"> 
+    <t t-call="website.layout"> 
+      <div id="wrap" class="container"> 
+        <h1 t-field="task.name" /> 
+        <p>Responsible: <span t-field="task.user_id" /></p> 
+        <p>Deadline: <span t-field="task.date_deadline" /></p> 
+      </div> 
+    </t> 
+  </template>
+
+  <template id="add" name="Añadir Tarea pendiente"> 
+  <t t-call="website.layout"> 
+    <t t-set="additional_title">Añadir Tarea</t>
+    <div id="wrap" class="container"> 
+      <div class="row"> 
+        <section id="forms"> 
+          <form method="post"         
+                class="s_website_form container-fluid form-horizontal" 
+                action="/website_form/" 
+                data-model_name="todo.task" 
+                data-success_page="/tareas"
+                enctype="multipart/form-data" >        
+              <!-- Campos del formulario-->
+
+                <!-- Campo Descripcion --> 
+              <div class="form-group form-field"> 
+                <div class="col-md-3 col-sm-4 text-right"> 
+                  <label class="control-label" for="name">Task</label> 
+                </div> 
+                <div class="col-md-7 col-sm-8"> 
+                  <input name="name" type="text" required="True" class="o_website_from_input form-control"/> 
+                </div> 
+              </div> 
+                
+                <!-- Campo Fecha -->
+                <div class="form-group form-field"> 
+                  <div class="col-md-3 col-sm-4 text-right"> 
+                    <label class="control-label" for="date_deadline">DeadLine</label> 
+                  </div> 
+                  <div class="col-md-7 col-sm-8"> 
+                    <input type="date" name="date_deadline" id="deadline" class="form-control o_website_form_input o_website_form_date" />   
+                    <!--<div class='input-group date' id='datetimepicker1'>
+                      <input type='text' class="form-control" name="date_deadline" id="datetimepicker1" />
+                      <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                      </span>-->
+                   </div>               
+                </div>
+
+              <!-- Añadir un fichero adjunto --> 
+              <div class="form-group form-field"> 
+                <div class="col-md-3 col-sm-4 text-right"> 
+                  <label class="control-label" for="file_upload">Fichero Adjunto</label> 
+                </div> 
+              <div class="col-md-7 col-sm-8"> 
+                  <input name="file_upload" type="file" class="o_website_from_input form-control" /> 
+                </div> 
+              </div>
+              <!-- Seleccionar un usuario de la lista --> 
+              <div class="form-group form-field"> 
+                <div class="col-md-3 col-sm-4 text-right"> 
+                  <label class="control-label" for="user_id">Por la persona</label> 
+                </div> 
+                <div class="col-md-7 col-sm-8"> 
+                  <select name="user_id" class="o_website_from_input form-control" > 
+                    <t t-foreach="users" t-as="user">  
+                      <option t-att-value="user.id"> 
+                        <t t-esc="user.name" /> 
+                      </option> 
+                    </t>
+                  </select> 
+                </div> 
+              </div>
+              <!-- Boton de guardar --> 
+              <div class="form-group"> 
+                <div class="col-md-offset-3 col-md-7 col-sm-offset-4 col-sm-8"> 
+                  <a class="o_website_form_send btn btn-primary btn-lg" onclick="changeDate()">Guardar Datos</a> 
+                  <span id="o_website_form_result"></span>
+                </div> 
+              </div> 
+          </form> 
+        </section> 
+      </div> <!-- rows --> 
+    </div> <!-- container --> 
+  </t> <!-- website.layout --> 
+</template>
+</odoo>

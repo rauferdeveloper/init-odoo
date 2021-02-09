@@ -1,0 +1,13 @@
+<odoo> 
+    <data> 
+        <template id="hello_extended"  
+            name="Extended Hello World" 
+            inherit_id="todo_website1.hello"> 
+            <xpath expr="//h1" position="replace"> 
+                <h1> 
+                    Hola <t t-esc="name or 'Algo'" />!!!!!!!! 
+                </h1> 
+            </xpath> 
+        </template>
+    </data>
+</odoo>

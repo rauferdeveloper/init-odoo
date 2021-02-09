@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+    <!-- La accion que va a realizar el item To-do Task cuando lo pulsemos --> 
+    <record id="action_todo_task" model="ir.actions.act_window">
+      <field name="name">Listado de Tareas</field>
+      <field name="res_model">todo.task</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field type="html" name="help">
+          <p class="oe_view_nocontent_create">
+              ¿Aún no has creado una tarea? Haz clic en crear y empieza a usarlas.
+          </p>
+      </field>
+    </record>
+    <!-- Item que va a aparecer junto al resto de items --> 
+    <menuitem
+      id="menu_todo_task" 
+      name="Tareas pendientes" 
+      sequence="1"
+      action="action_todo_task"
+    /> 
+  </data>
+  
+    
+</odoo>

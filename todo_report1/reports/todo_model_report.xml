@@ -1,0 +1,41 @@
+<odoo> 
+ <data>
+    <report id="action_todo_model_report" 
+        string="Reporte personalizado para Tareas Pendientes" 
+        model="todo.task" 
+        report_type="qweb-html" 
+        name="todo_report1.report_todo_task_special" 
+    /> 
+    
+    <template id="report_todo_task_special"> 
+        <t t-call="web.html_container"> 
+            <t t-call="web.external_layout"> 
+                <div class="page"> 
+                    <!-- Contenido del Reporte --> 
+                    <table class="table table-striped"> 
+                        <tr> 
+                            <th>Titulo</th> 
+                            <th>Propietario</th> 
+                            <th>Fecha Final</th> 
+                        </tr> 
+                        <t t-foreach="docs" t-as="o"> 
+                            <tr> 
+                                <td class="col-xs-6"> 
+                                    <span t-field="o.name" /> 
+                                </td> 
+                                <td class="col-xs-3"> 
+                                    <span t-field="o.user_id" /> 
+                                </td> 
+                                <td class="col-xs-3"> 
+                                    <span t-field="o.date_deadline" /> 
+                                </td> 
+                            </tr> 
+                        </t> 
+                    </table> 
+            
+                </div> 
+            </t> 
+        </t> 
+    </template> 
+ </data>
+</odoo> 
